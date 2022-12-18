@@ -1,0 +1,13 @@
+2022-03-26 21:17:51,777 INFO     autoreload C:\Users\plotn\PycharmProjects\Logging\loggers\loggers\log.py changed, reloading.
+2022-03-26 21:17:53,324 INFO     autoreload Watching for file changes with StatReloader
+2022-03-26 21:18:33,138 INFO     autoreload C:\Users\plotn\PycharmProjects\Logging\loggers\hello\views.py changed, reloading.
+2022-03-26 21:18:34,529 INFO     autoreload Watching for file changes with StatReloader
+2022-03-26 21:18:41,844 INFO     basehttp "GET / HTTP/1.1" 200 12
+2022-03-26 21:25:20,201 INFO     autoreload Watching for file changes with StatReloader
+2022-03-27 21:17:25,427 INFO     autoreload Watching for file changes with StatReloader
+2022-03-27 21:17:57,188 WARNING  log Not Found: /f
+2022-03-27 21:19:50,714 INFO     autoreload C:\Users\plotn\PycharmProjects\Logging\loggers\hello\views.py changed, reloading.
+2022-03-27 21:19:52,386 INFO     autoreload Watching for file changes with StatReloader
+2022-03-27 21:19:58,593 WARNING  log Not Found: /f
+2022-03-27 21:20:04,257 ERROR    log Internal Server Error: /
+2022-03-27 21:20:09,420 ERROR    log Internal Server Error: /
