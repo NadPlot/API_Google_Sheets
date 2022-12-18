@@ -1,10 +1,16 @@
+import os
 import httplib2
 import apiclient.discovery
 from oauth2client.service_account import ServiceAccountCredentials
+from dotenv import load_dotenv
+load_dotenv()
+
+# ID гугл таблицы, куда вносим данные
+SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
 
 
 # Создаем Сервис-объект для работы с Google-таблицами
-CREDENTIALS_FILE = 'managesheet-371909-eeba38bd209f.json'  # имя файла с закрытым ключом, полученый при создании Сервисного аккаунта
+CREDENTIALS_FILE = os.getenv('CREDENTIALS_FILE') # переменная с именем файла с закрытым ключом, полученый при создании Сервисного аккаунта
 
 credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE, ['https://www.googleapis.com/auth/spreadsheets',
                                                                                   'https://www.googleapis.com/auth/drive'])
@@ -32,6 +38,9 @@ shareRes = driveService.permissions().create(
 
 
 # Заполнение таблицы данными
+results = service.spreadsheets().values().append(spreadsheetId = '1613BR-ljmLeW82XdQaWo3cu3CuMw59jRA2GIDjISGpo', range = "Sheet1!A5:A5", valueInputOption = "USER_ENTERED", body = {"values": [["Логи кластера №1"]]}).execute()
+
+
 results = service.spreadsheets().values().batchUpdate(spreadsheetId = spreadsheet['spreadsheetId'], body = {
     "valueInputOption": "USER_ENTERED",
     "data": [
@@ -39,5 +48,4 @@ results = service.spreadsheets().values().batchUpdate(spreadsheetId = spreadshee
          "values": [["Логи кластера №1"]]},
     ]
 }).execute()
-
 
