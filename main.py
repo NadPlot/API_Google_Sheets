@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')  # ID гугл таблицы, куда вносим данные (для уже существующей)
+SHEET_ID = os.getenv('SHEET_ID')  # ID листа таблицы
 CREDENTIALS_FILE = os.getenv('CREDENTIALS_FILE')  # переменная с именем файла JSON с закрытым ключом, полученый при создании Сервисного аккаунта
 LOG_FILE = os.getenv('LOG_FILE')  # Путь и Имя файла с логами
 
@@ -20,7 +21,6 @@ class Tables:
         self.service = discovery.build('sheets', 'v4', http = self.httpAuth)  # Сервис-объект для работы с Google-таблицами
         self.driveService = discovery.build('drive', 'v3', http = self.httpAuth)  # Предоставление доступа на чтение к google таблице
         self.tableID = None  # для получения ID таблицы
-        self.sheetID = None  # для получения URL таблицы
 
 
     # Создание новой Google-таблицы и открытие доступа к ней
@@ -45,14 +45,24 @@ class Tables:
             results = self.service.spreadsheets().values().append(
                     spreadsheetId = self.tableID, range = "Лист1!A1:A1", valueInputOption = "USER_ENTERED", body = {"values": [[f.readline()]]}).execute()
 
-    # Получение URL созданной таблицы
+    # Получение URL таблицы
     def get_table_URL(self):
-        pass
+        if self.tableID is None:
+            self.tableID = SPREADSHEET_ID
+        return 'https://docs.google.com/spreadsheets/d/' + self.tableID + '/edit#gid='
 
-new = Tables(CREDENTIALS_FILE)
-print(new)
-print(new.tableID)
-new.add_data()
-print(new.tableID)
+
+table = Tables(CREDENTIALS_FILE)
+if table:
+    print('Подключено к google-таблицам')
+else:
+    print('Что-то пошло не так')
+if table.tableID is None:
+    q = input('Создать новую таблицу? "Y/N?":')
+    if q == 'Y':
+        table.create_table(input('Введите имя новой таблицы'))
+    else:
+        table.add_data()
+        print(f'Данные внесены в таблицу, посмотреть таблицу по адресу:', table.get_table_URL())
 
 
